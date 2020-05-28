@@ -1,0 +1,11 @@
+while true
+do
+if sudo docker ps | grep mlops_os
+then
+echo "The container is working properly"
+else
+sudo python3 /root/error_mail.py
+sudo docker start mlops_os
+exit 0
+fi
+done

@@ -1,0 +1,18 @@
+if sudo docker ps -a | grep mlops_os
+then
+sudo docker rm -f mlops_os
+sudo docker run -dit --name mlops_os mlops_img:v1
+sudo docker cp /root/mlops_code.py mlops_os:/accuracy/
+sudo docker exec mlops_os python3 /accuracy/mlops_code.py
+sudo docker cp mlops_os:/accuracy.txt /root/
+elif sudo docker ps | grep mlops_os
+then
+sudo docker cp /root/mlops_code.py mlops_os:/accuracy/
+sudo docker exec mlops_os python3 /accuracy/mlops_code.py
+sudo docker cp mlops_os:/accuracy.txt /root/
+else
+sudo docker run -dit --name mlops_os mlops_img:v1
+sudo docker cp /root/mlops_code.py mlops_os:/accuracy/
+sudo docker exec mlops_os python3 /accuracy/mlops_code.py
+sudo docker cp mlops_os:/accuracy.txt /root/
+fi

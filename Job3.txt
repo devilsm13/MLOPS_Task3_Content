@@ -1,0 +1,13 @@
+accuracy=$(sudo cat /root/accuracy.txt)
+x=2
+filt=(parameter=$x)
+while [ $accuracy -lt 95 ]
+do
+ sudo sed -i '48s/.*/'"$filt"'/' /root/mlops_code.py
+ sudo docker cp /root/mlops_code.py mlops_os:/accuracy/
+ sudo docker exec mlops_os python3 /accuracy/mlops_code.py
+ sudo docker cp mlops_os:/accuracy.txt /root/
+ accuracy=$(sudo cat /root/accuracy.txt)
+ x=$((x+1))
+ filt=(parameter=$x)
+done
